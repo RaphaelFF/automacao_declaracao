@@ -1,15 +1,28 @@
 from docx import Document
 
 nome_arquivo = './teste.docx'  # Nome do arquivo Word
-texto_antigo = '{nome}'  # Texto que deve ser substituído
-texto_novo = 'Raphael Fernanades Franca com o cpf ta ta'  # Novo texto para substituir
+texto_antigo = 'nome_'  # Texto que deve ser substituído
+texto_novo = 'Raphael Fernanades Franca com '  # Novo texto para substituir
 
 documento = Document(nome_arquivo) #abrindo o arquivo
-paragrafo = documento.paragraphs[0]  # Assumindo que o texto está no primeiro parágrafo
 
 # Substitui o texto antigo pelo novo em todo o parágrafo
 
-paragrafo.text = paragrafo.text.replace(texto_antigo, texto_novo)
+'''
+for p in range(10):
+    paragrafo = documento.paragraphs[p]  # Assumindo que o texto está no primeiro parágrafo
 
-# Salva o documento modificado
-documento.save('nome_arquivo.docx')
+    paragrafo.text = paragrafo.text.replace(texto_antigo, texto_novo)
+
+    # Salva o documento modificado
+    
+'''
+
+for paragrafo in documento.paragraphs:
+    for linha in paragrafo.runs:
+        if texto_antigo in linha.text:
+            # Substituir o texto na linha
+            linha.text = linha.text.replace(texto_antigo, texto_novo)
+            # Marcar como encontrado (opcional)
+            linha.font.bold = True
+            documento.save('nome_arquivo.docx')
